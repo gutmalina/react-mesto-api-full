@@ -16,6 +16,7 @@ import FailPopup from './FailPopup';
 import {Route, Switch, Redirect, useLocation, useHistory } from 'react-router-dom';
 import ProtectedRoute from './ProtectedRoute';
 import *as auth from '../utils/Auth';
+import { useRef } from 'react';
 
 function App() {
   const [currentUser, setCurrentUser] = useState({})
@@ -37,9 +38,9 @@ function App() {
   useEffect(()=>{
     if(loggedIn){
       Promise.all([api.getProfile(), api.getCards()])
-        .then(([res, cards]) => {
-          setCurrentUser(res)
-          setCards(cards)
+        .then(([user, cards]) => {
+          setCurrentUser(user)
+          setCards(cards.reverse())
         })
         .catch(console.log)
     }
@@ -48,8 +49,8 @@ function App() {
 /** Отправка новых данных профиля на сервер и обновление на странице */
   const handleUpdateUser=(updateUser)=>{
     api.editProfile(updateUser.name, updateUser.about)
-      .then(res => {
-        setCurrentUser(res)
+      .then(user => {
+        setCurrentUser(user)
         setIsEditProfilePopupOpen(false)
       })
       .catch(console.log)
@@ -61,8 +62,8 @@ function App() {
 /** Отправка аватара на сервер и обновление на странице */
   const handleUpdateAvatar=(updateAvatar)=>{
     api.editAvatar(updateAvatar.avatar)
-      .then(res => {
-        setCurrentUser(res)
+      .then(user => {
+        setCurrentUser(user)
         setIsEditAvatarPopupOpen(false)
       })
       .catch(console.log)
@@ -86,15 +87,17 @@ function App() {
 
 /** Поставить лайк или дизлайк карточке */
   const handleCardLike=(card)=>{
-    const isLiked = card.likes.some(like => like._id === currentUser._id);
+    const isLiked = card.likes.some(like => like === currentUser._id);
     if(!isLiked){
-      api.addLike(card._id)
+      api
+        .addLike(card._id)
         .then((newCard) => {
           setCards((cards) => cards.map((c) => c._id === card._id ? newCard : c));
         })
         .catch(console.log)
       }else{
-        api.deleteLike(card._id)
+        api
+          .deleteLike(card._id)
           .then((newCard) => {
             setCards((cards) => cards.map((c) => c._id === card._id ? newCard : c));
           })
@@ -153,7 +156,7 @@ function App() {
       auth.getContent(jwt)
       .then((res) => {
         if (res){
-          setIsEmailAuth(res.data.email)
+          setIsEmailAuth(res.email)
           setLoggedIn(true);
         }
       })

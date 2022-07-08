@@ -10,22 +10,22 @@ const auth = require('./middlewares/auth');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const cors = require('./middlewares/cors');
 
-const { PORT = 3000 } = process.env;
+const { PORT = 3001 } = process.env;
 
 const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-/** обработка логгер запросов */
-app.use(requestLogger);
-
 /** обработка кросс-доменных запросов */
 app.use(cors);
 
+/** обработка логгер запросов */
+app.use(requestLogger);
+
 /** роутеры регистрации и аутентификации */
-app.post('/signup', validateCreateUser, createUser);
 app.post('/signin', validateLogin, login);
+app.post('/signup', validateCreateUser, createUser);
 
 /** роутеры пользователей и карточек, защищены авторизацией */
 app.use('/users', auth, require('./routes/users'));
@@ -47,7 +47,7 @@ app.use(error);
 
 /** подключение к mongo и серверу */
 async function main() {
-  await mongoose.connect('mongodb://localhost:27017/mestodb');
+  await mongoose.connect('mongodb://127.0.0.1:27017/mestodb');
   app.listen(PORT, () => {
     // eslint-disable-next-line no-console
     console.log(`Connect ${PORT}`);

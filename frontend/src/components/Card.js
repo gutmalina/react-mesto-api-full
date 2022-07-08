@@ -5,10 +5,10 @@ function Card({name, link, likes, owner, _id, onCardClick, onCardLike, onCardDel
     const currentUser = React.useContext(CurrentUserContext);
 
     /** Сравнить id автора карточки и id профиля */
-  const isOwn = owner._id === currentUser._id;
+  const isOwn = owner === currentUser._id;
 
   /** Сравнить id кто поставил лайк и id профиля */
-  const isLiked = likes.some(i => i._id === currentUser._id);
+  const isLiked = likes.some(i => i === currentUser._id);
 
   const cardDeleteButtonClassName = `button button_type_delete-card ${!isOwn && 'button_type_delete-hidden'}`;
   const cardLikeButtonClassName = `button button_type_like-card ${isLiked ? 'button_active-like' : 'button_inactive-like'}`;

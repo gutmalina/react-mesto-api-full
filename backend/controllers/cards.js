@@ -10,7 +10,7 @@ module.exports.getCards = (req, res, next) => {
     .then((cards) => {
       res
         .status(200)
-        .send({ data: cards });
+        .send(cards);
     })
     .catch(next);
 };
@@ -24,7 +24,7 @@ module.exports.createCard = async (req, res, next) => {
     .then((card) => {
       res
         .status(201)
-        .send({ data: card });
+        .send(card);
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {
@@ -53,7 +53,7 @@ module.exports.deleteCard = (req, res, next) => {
         .then(() => {
           res
             .status(200)
-            .send({ data: card });
+            .send(card);
         })
         .catch(next);
     })
@@ -82,7 +82,7 @@ module.exports.likeCard = (req, res, next) => {
     .then((card) => {
       res
         .status(200)
-        .send({ data: card });
+        .send(card);
     })
     .catch((err) => {
       if (err.name === 'CastError') {
@@ -109,7 +109,7 @@ module.exports.dislikeCard = (req, res, next) => {
       }
       res
         .status(200)
-        .send({ data: card });
+        .send(card);
     })
     .catch((err) => {
       if (err.name === 'CastError') {

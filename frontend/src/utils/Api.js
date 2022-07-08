@@ -11,6 +11,7 @@ export class Api {
 
   /** получить данные профиля с сервера */
   getProfile(){
+    // console.log('USER', this._headers)
     return fetch(`${this._baseUrl}/users/me`, {
       headers: this._headers
     })
@@ -19,6 +20,7 @@ export class Api {
 
   /** получить предзагруженные карточки с сервера */
   getCards() {
+    // console.log('CARDS', this._headers)
     return fetch(`${this._baseUrl}/cards`, {
       headers: this._headers
     })
@@ -94,10 +96,11 @@ export class Api {
 }
 
 const api = new Api({
-  baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-39',
+  baseUrl: 'http://localhost:3001',
   headers: {
-    authorization: '1644d6d3-d402-48a7-a47b-050c577645a3',
-    'Content-Type': 'application/json'
+    'Accept': 'application/json',
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${localStorage.getItem('jwt')}`,
   }
 });
 

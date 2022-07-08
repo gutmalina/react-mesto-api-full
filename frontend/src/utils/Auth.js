@@ -1,4 +1,4 @@
-export const BASE_URL = 'https://auth.nomoreparties.co';
+export const BASE_URL = 'http://localhost:3001';
 
 /** проверить ответ сервера и получить ошибку*/
 const checkResponse = (res)=>{
@@ -24,7 +24,7 @@ export const register = (email, password) => {
       password
     })
   })
-  .then(checkResponse)
+  .then(checkResponse);
 };
 
 /**Авторизация пользователя */
