@@ -98,9 +98,9 @@ export class Api {
 const api = new Api({
   baseUrl: 'http://localhost:3001',
   headers: {
-    'Accept': 'application/json',
+    Accept: 'application/json',
     'Content-Type': 'application/json',
-    'Authorization': `Bearer ${localStorage.getItem('jwt')}`,
+    Authorization: `Bearer ${localStorage.getItem('jwt')}`,
   }
 });
 
