@@ -24,6 +24,13 @@ app.use(cors);
 /** обработка логгер запросов */
 app.use(requestLogger);
 
+/** краш-тест сервера */
+app.get('/crash-test', () => {
+  setTimeout(() => {
+    throw new Error('Сервер сейчас упадёт');
+  }, 0);
+});
+
 /** роутеры регистрации и аутентификации */
 app.post('/signin', validateLogin, login);
 app.post('/signup', validateCreateUser, createUser);
