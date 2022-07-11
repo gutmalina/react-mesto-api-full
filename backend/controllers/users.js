@@ -1,12 +1,10 @@
 const bcrypt = require('bcryptjs');
-// const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 const CastError = require('../errors/cast-error');
 const NotFoundError = require('../errors/not-found-error');
 const ConflictError = require('../errors/conflict-error');
 const UnauthorizedError = require('../errors/unauthorized-error');
 const { generateToken } = require('../helpers/jwt');
-// const { SECRET_KEY } = require('../helpers/jwt');
 
 const SALT_ROUNDS = 10;
 const MONGO_DUPLICATE_ERROR_CODE = 11000;
