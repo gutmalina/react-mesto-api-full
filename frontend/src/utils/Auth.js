@@ -1,4 +1,4 @@
-import BASE_URL from './constants';
+import BASE_URL from '../utils/constants';
 
 /** проверить ответ сервера и получить ошибку*/
 const checkResponse = (res)=>{
