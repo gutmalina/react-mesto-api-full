@@ -1,3 +1,5 @@
+import BASE_URL from './constants';
+
 export class Api {
   constructor({baseUrl, headers}) {
     this._headers = headers;
@@ -96,7 +98,7 @@ export class Api {
 }
 
 const api = new Api({
-  baseUrl: 'http://localhost:3001',
+  baseUrl: BASE_URL,
   headers: {
     Accept: 'application/json',
     'Content-Type': 'application/json',

@@ -1,4 +1,4 @@
-export const BASE_URL = 'https://gutmalina.mesto.backend.nomoredomains.sbs';
+import BASE_URL from './constants';
 
 /** проверить ответ сервера и получить ошибку*/
 const checkResponse = (res)=>{
@@ -16,7 +16,7 @@ export const register = (email, password) => {
   return fetch(`${BASE_URL}/signup`, {
     method: 'POST',
     headers: {
-      'Accept': 'application/json',
+      Accept: 'application/json',
       "Content-Type": "application/json"
     },
     body: JSON.stringify({
@@ -32,7 +32,7 @@ export const authorize = (email, password) => {
   return fetch(`${BASE_URL}/signin`, {
     method: 'POST',
     headers: {
-      'Accept': 'application/json',
+      Accept: 'application/json',
       "Content-Type": "application/json"
     },
     body: JSON.stringify({
@@ -48,9 +48,9 @@ export const getContent = (token) => {
   return fetch(`${BASE_URL}/users/me`, {
     method: 'GET',
     headers: {
-      'Accept': 'application/json',
+      Accept: 'application/json',
       "Content-Type": "application/json",
-      "Authorization": `Bearer ${token}`,
+      Authorization: `Bearer ${token}`,
     }
   })
   .then(checkResponse)
