@@ -1,6 +1,8 @@
 const allowedCors = [
   'http://gutmalina.mesto.front.nomoredomains.sbs',
   'https://gutmalina.mesto.front.nomoredomains.sbs',
+  'http://gutmalina.mesto.backend.nomoredomains.sbs',
+  'https://gutmalina.mesto.backend.nomoredomains.sbs',
   'http://localhost:3000',
   'https://localhost:3000',
 ];
