@@ -1,4 +1,4 @@
-export const BASE_URL = `${window.location.protocol}${process.env.REACT_APP_API_URL || '//localhost:3001'}`;
+export const BASE_URL = 'https://gutmalina.mesto.backend.nomoredomains.sbs';
 
 /** проверить ответ сервера и получить ошибку*/
 const checkResponse = (res)=>{
