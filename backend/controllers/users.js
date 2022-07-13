@@ -1,10 +1,10 @@
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 const CastError = require('../errors/cast-error');
 const NotFoundError = require('../errors/not-found-error');
 const ConflictError = require('../errors/conflict-error');
 const UnauthorizedError = require('../errors/unauthorized-error');
-const { generateToken } = require('../helpers/jwt');
 
 const SALT_ROUNDS = 10;
 const MONGO_DUPLICATE_ERROR_CODE = 11000;
@@ -167,34 +167,15 @@ module.exports.updateAvatar = (req, res, next) => {
 /** аутентификация - вход по email и паролю  */
 module.exports.login = (req, res, next) => {
   const { email, password } = req.body;
-  if (!email || !password) {
-    next(new UnauthorizedError('Не передан email или пароль'));
-  }
   return User
-    .findOne({ email })
-    .select('+password')
+    .findUserByCredentials(email, password)
     .then((user) => {
-      if (!user) {
-        const err = new UnauthorizedError('Некорректная почта или пароль');
-        err.statusCode = 'UnauthorizedError';
-        throw err;
-      }
-      return Promise.all([
-        user,
-        bcrypt.compare(password, user.password),
-      ]);
-    })
-    .then(([user, isPasswordCorrect]) => {
-      if (!isPasswordCorrect) {
-        const err = new UnauthorizedError('Некорректная почта или пароль');
-        err.statusCode = 'UnauthorizedError';
-        throw err;
-      }
-      return generateToken({ email: user.email });
-    })
-    .then((token) => {
-      res
-        .status(200).send({ token });
+      const token = jwt.sign(
+        { _id: user._id },
+        'secret-key',
+        { expiresIn: '7d' },
+      );
+      res.send({ token });
     })
     .catch((err) => {
       if (err.statusCode === 'CastError') {
