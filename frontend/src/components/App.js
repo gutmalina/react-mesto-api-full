@@ -40,7 +40,7 @@ function App() {
       Promise.all([api.getProfile(), api.getCards()])
         .then(([user, cards]) => {
           setCurrentUser(user)
-          setCards(cards.reverse())
+          setCards(cards)
         })
         .catch(console.log)
     }
@@ -89,15 +89,13 @@ function App() {
   const handleCardLike=(card)=>{
     const isLiked = card.likes.some(like => like === currentUser._id);
     if(!isLiked){
-      api
-        .addLike(card._id)
+      api.addLike(card._id)
         .then((newCard) => {
           setCards((cards) => cards.map((c) => c._id === card._id ? newCard : c));
         })
         .catch(console.log)
       }else{
-        api
-          .deleteLike(card._id)
+        api.deleteLike(card._id)
           .then((newCard) => {
             setCards((cards) => cards.map((c) => c._id === card._id ? newCard : c));
           })

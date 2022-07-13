@@ -11,7 +11,6 @@ export class Api {
 
   /** получить данные профиля с сервера */
   getProfile(){
-    // console.log('USER', this._headers)
     return fetch(`${this._baseUrl}/users/me`, {
       headers: this._headers
     })
@@ -20,7 +19,6 @@ export class Api {
 
   /** получить предзагруженные карточки с сервера */
   getCards() {
-    // console.log('CARDS', this._headers)
     return fetch(`${this._baseUrl}/cards`, {
       headers: this._headers
     })
@@ -98,9 +96,8 @@ export class Api {
 const api = new Api({
   baseUrl: 'http://localhost:3001',
   headers: {
-    Accept: 'application/json',
-    'Content-Type': 'application/json',
-    Authorization: `Bearer ${localStorage.getItem('jwt')}`,
+    authorization: `Bearer ${localStorage.getItem('jwt')}`,
+    'Content-Type': 'application/json'
   }
 });
 

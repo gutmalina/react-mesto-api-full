@@ -1,14 +1,13 @@
 const mongoose = require('mongoose');
 const express = require('express');
 const { errors } = require('celebrate');
-
+const cors = require('./middlewares/cors');
+const { requestLogger, errorLogger } = require('./middlewares/logger');
 const error = require('./middlewares/error');
 const NotFoundError = require('./errors/not-found-error');
 const { createUser, login } = require('./controllers/users');
 const { validateCreateUser, validateLogin } = require('./middlewares/validation');
 const auth = require('./middlewares/auth');
-const { requestLogger, errorLogger } = require('./middlewares/logger');
-const cors = require('./middlewares/cors');
 
 const { PORT = 3001 } = process.env;
 
