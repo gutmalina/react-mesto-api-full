@@ -16,7 +16,6 @@ import FailPopup from './FailPopup';
 import {Route, Switch, Redirect, useLocation, useHistory } from 'react-router-dom';
 import ProtectedRoute from './ProtectedRoute';
 import *as auth from '../utils/Auth';
-import { useRef } from 'react';
 
 function App() {
   const [currentUser, setCurrentUser] = useState({})
@@ -37,7 +36,8 @@ function App() {
 /** Загрузка страницы, получение данных профиля и массив карточек */
   useEffect(()=>{
     if(loggedIn){
-      Promise.all([api.getProfile(), api.getCards()])
+      Promise
+        .all([api.getProfile(), api.getCards()])
         .then(([user, cards]) => {
           setCurrentUser(user)
           setCards(cards)
@@ -48,7 +48,8 @@ function App() {
 
 /** Отправка новых данных профиля на сервер и обновление на странице */
   const handleUpdateUser=(updateUser)=>{
-    api.editProfile(updateUser.name, updateUser.about)
+    api
+      .editProfile(updateUser.name, updateUser.about)
       .then(user => {
         setCurrentUser(user)
         setIsEditProfilePopupOpen(false)
@@ -61,7 +62,8 @@ function App() {
 
 /** Отправка аватара на сервер и обновление на странице */
   const handleUpdateAvatar=(updateAvatar)=>{
-    api.editAvatar(updateAvatar.avatar)
+    api
+      .editAvatar(updateAvatar.avatar)
       .then(user => {
         setCurrentUser(user)
         setIsEditAvatarPopupOpen(false)
@@ -74,7 +76,8 @@ function App() {
 
 /** Отправка новой карточки на сервер и обновление на странице */
   const handleAddPlace=(newCard)=>{
-    api.addCard(newCard.name, newCard.link)
+    api
+      .addCard(newCard.name, newCard.link)
       .then(newCard => {
         setCards([newCard, ...cards]);
         setIsAddPlacePopupOpen(false)
@@ -89,13 +92,15 @@ function App() {
   const handleCardLike=(card)=>{
     const isLiked = card.likes.some(like => like === currentUser._id);
     if(!isLiked){
-      api.addLike(card._id)
+      api
+        .addLike(card._id)
         .then((newCard) => {
           setCards((cards) => cards.map((c) => c._id === card._id ? newCard : c));
         })
         .catch(console.log)
       }else{
-        api.deleteLike(card._id)
+        api
+          .deleteLike(card._id)
           .then((newCard) => {
             setCards((cards) => cards.map((c) => c._id === card._id ? newCard : c));
           })
@@ -105,7 +110,8 @@ function App() {
 
 /** Удалить карточку */
   const handleCardDelete=(obj)=>{
-    api.deleteCard(cardDelete._id)
+    api
+      .deleteCard(cardDelete._id)
       .then(res => {
         setCards((cards) => cards.filter((c) => c._id !== cardDelete._id))
         setIsConfirmDeletePopupOpen(false)
@@ -118,47 +124,50 @@ function App() {
 
 /**Регистрация пользователя */
   const handleRegister =(updateRegister)=>{
-    return auth.register(updateRegister.email, updateRegister.password)
-    .then(()=>{
-      setIsSuccessPopupOpen(true)
-      history.push('/sign-in')
-    })
-    .catch(console.log)
-    .finally(()=>{
-      updateRegister.onRenderLoading(false)
-    })
+    return auth
+      .register(updateRegister.email, updateRegister.password)
+      .then(()=>{
+        setIsSuccessPopupOpen(true)
+        history.push('/sign-in')
+      })
+      .catch(console.log)
+      .finally(()=>{
+        updateRegister.onRenderLoading(false)
+      })
   }
 
 /**Авторизация пользователя */
   const handleLogin = (updateLogin)=>{
-    return auth.authorize(updateLogin.email, updateLogin.password)
-    .then((data) => {
-      if (data.token){
-        localStorage.setItem('jwt', data.token)
-        tokenCheck(updateLogin.email);
-      }
-      setIsEmailAuth(updateLogin.email)
-    })
-    .catch(()=>{
-      setIsFailPopupOpen(true)
-    })
-    .finally(()=>{
-      updateLogin.onRenderLoading(false)
-    })
+    return auth
+      .authorize(updateLogin.email, updateLogin.password)
+      .then((data) => {
+        if (data.token){
+          localStorage.setItem('jwt', data.token)
+          tokenCheck(updateLogin.email);
+        }
+        setIsEmailAuth(updateLogin.email)
+      })
+      .catch(()=>{
+        setIsFailPopupOpen(true)
+      })
+      .finally(()=>{
+        updateLogin.onRenderLoading(false)
+      })
   }
 
 /** получение токена */
   const tokenCheck = () => {
     let jwt = localStorage.getItem('jwt')
     if(jwt){
-      auth.getContent(jwt)
-      .then((res) => {
-        if (res){
-          setIsEmailAuth(res.email)
-          setLoggedIn(true);
-        }
-      })
-      .catch(console.log)
+      auth
+        .getContent(jwt)
+        .then((res) => {
+          if (res){
+            setIsEmailAuth(res.email)
+            setLoggedIn(true);
+          }
+        })
+        .catch(console.log)
     }
   }
 
