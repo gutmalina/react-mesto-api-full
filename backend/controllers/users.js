@@ -5,9 +5,9 @@ const CastError = require('../errors/cast-error');
 const NotFoundError = require('../errors/not-found-error');
 const ConflictError = require('../errors/conflict-error');
 const UnauthorizedError = require('../errors/unauthorized-error');
+const { SALT_ROUNDS, MONGO_DUPLICATE_ERROR_CODE } = require('../utils/constants');
 
-const SALT_ROUNDS = 10;
-const MONGO_DUPLICATE_ERROR_CODE = 11000;
+const { NODE_ENV, JWT_SECRET } = process.env;
 
 /** добавить пользователя */
 module.exports.createUser = (req, res, next) => {
@@ -172,7 +172,7 @@ module.exports.login = (req, res, next) => {
     .then((user) => {
       const token = jwt.sign(
         { _id: user._id },
-        'secret-key',
+        NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret',
         { expiresIn: '7d' },
       );
       res.send({ token });

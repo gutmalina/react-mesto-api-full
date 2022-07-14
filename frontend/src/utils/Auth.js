@@ -1,4 +1,5 @@
-const BASE_URL = 'http://localhost:3001';
+// const BASE_URL = 'http://localhost:3001';
+const BASE_URL = `${window.location.protocol}${process.env.REACT_APP_API_URL || '//localhost:3001'}`;
 
 /** проверить ответ сервера и получить ошибку*/
 const checkResponse = (res)=>{
