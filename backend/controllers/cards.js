@@ -22,6 +22,7 @@ module.exports.createCard = async (req, res, next) => {
   Card
     .create({ name, link, owner })
     .then((card) => {
+      console.log('BackendCards', card);
       res
         .status(201)
         .send(card);
@@ -29,6 +30,7 @@ module.exports.createCard = async (req, res, next) => {
     .catch((err) => {
       if (err.name === 'ValidationError') {
         next(new CastError('Введены некорректные данные'));
+        console.log(err)
       } else {
         next(err);
       }

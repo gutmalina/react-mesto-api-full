@@ -47,13 +47,14 @@ export class Api {
   }
 
   /** добавить новую карточку на сервер */
-  addCard(name, link){
+  addCard(name, link, likes){
     return fetch(`${this._baseUrl}/cards`, {
       method: 'POST',
       headers: this._getHeaders(),
       body: JSON.stringify({
         name,
-        link
+        link,
+        likes
       })
     })
     .then(this._checkResponse)
