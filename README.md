@@ -4,7 +4,7 @@
 Включает фронтенд и бэкенд части приложения со следующими возможностями: авторизации и регистрации пользователей, операции по добавлению, редактированию и удалению данных пользователя и\или карточек.
 
 * Публичный IPv4 сервера: [http://51.250.77.214](http://51.250.77.214)
-* Ссылка на проект: [http://gutmalina.mesto.front.nomoredomains.sbs](hhtp://gutmalina.mesto.front.nomoredomains.sbs)
+* Ссылка на проект: [http://gutmalina.mesto.front.nomoredomains.sbs](http://gutmalina.mesto.front.nomoredomains.sbs)
 * Ссылка на Backend проекта: [http://gutmalina.mesto.backend.nomoredomains.sbs](http://gutmalina.mesto.backend.nomoredomains.sbs)
 
 ### ***Функционал приложения:***
