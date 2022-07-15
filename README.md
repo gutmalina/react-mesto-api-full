@@ -32,8 +32,8 @@
 * Закрытие попапов по кнопке Esc, кликом мышки за пределами попапа, с очисткой полей
 
 ### ***Стэк:***
-* NODE.js
-* REACT.js
-* MONGODB
-* EXPRESS.js
-* NESTED БЭМ
+* Node.js
+* React.js
+* MongoDB
+* Express.js
+* Nested БЭМ
