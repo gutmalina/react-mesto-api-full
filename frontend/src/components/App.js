@@ -26,7 +26,6 @@ function App() {
   const [isConfirmDeletePopupOpen, setIsConfirmDeletePopupOpen] = useState(false)
   const [isSuccessPopupOpen, setIsSuccessPopupOpen] = useState(false)
   const [isFailPopupOpen, setIsFailPopupOpen] = useState(false)
-  console.log(isFailPopupOpen);
   const [cards, setCards] = useState([])
   const [cardDelete, setCardDelete] = useState({})
   const [loggedIn, setLoggedIn] = useState(false)
