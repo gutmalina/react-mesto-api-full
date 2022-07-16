@@ -130,7 +130,9 @@ function App() {
         setIsSuccessPopupOpen(true)
         history.push('/sign-in')
       })
-      .catch(console.log)
+      .catch(()=>{
+        setIsFailPopupOpen(true)
+      })
       .finally(()=>{
         updateRegister.onRenderLoading(false)
       })

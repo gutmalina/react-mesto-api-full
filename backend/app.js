@@ -5,10 +5,7 @@ const { errors } = require('celebrate');
 const cors = require('./middlewares/cors');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const error = require('./middlewares/error');
-const NotFoundError = require('./errors/not-found-error');
-const { createUser, login } = require('./controllers/users');
-const { validateCreateUser, validateLogin } = require('./middlewares/validation');
-const auth = require('./middlewares/auth');
+const router = require('./routes/routes');
 
 const { PORT = 3001 } = process.env;
 
@@ -30,18 +27,8 @@ app.get('/crash-test', () => {
   }, 0);
 });
 
-/** роутеры регистрации и аутентификации */
-app.post('/signin', validateLogin, login);
-app.post('/signup', validateCreateUser, createUser);
-
-/** роутеры пользователей и карточек, защищены авторизацией */
-app.use('/users', auth, require('./routes/users'));
-app.use('/cards', auth, require('./routes/cards'));
-
-/** обработка несуществующих роутов */
-app.use((req, res, next) => {
-  next(new NotFoundError('Страница не найдена'));
-});
+/** все роуты */
+app.use(router);
 
 /** логгер ошибок */
 app.use(errorLogger);

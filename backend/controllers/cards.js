@@ -8,9 +8,7 @@ module.exports.getCards = (req, res, next) => {
   Card
     .find({})
     .then((cards) => {
-      res
-        .status(200)
-        .send(cards);
+      res.send(cards);
     })
     .catch(next);
 };
@@ -22,15 +20,11 @@ module.exports.createCard = async (req, res, next) => {
   Card
     .create({ name, link, owner })
     .then((card) => {
-      console.log('BackendCards', card);
-      res
-        .status(201)
-        .send(card);
+      res.send(card);
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {
         next(new CastError('Введены некорректные данные'));
-        console.log(err)
       } else {
         next(err);
       }
@@ -48,14 +42,12 @@ module.exports.deleteCard = (req, res, next) => {
     })
     .then((card) => {
       if (String(userId) !== String(card.owner._id)) {
-        next(new ForbiddenError('Карточка не может быть удалена'));
+        throw next(new ForbiddenError('Карточка не может быть удалена'));
       }
       Card
         .findByIdAndRemove(cardId)
         .then(() => {
-          res
-            .status(200)
-            .send(card);
+          res.send(card);
         })
         .catch(next);
     })
@@ -82,9 +74,7 @@ module.exports.likeCard = (req, res, next) => {
       throw new NotFoundError('Карточка с указанным id не найдена');
     })
     .then((card) => {
-      res
-        .status(200)
-        .send(card);
+      res.send(card);
     })
     .catch((err) => {
       if (err.name === 'CastError') {
@@ -109,9 +99,7 @@ module.exports.dislikeCard = (req, res, next) => {
       if (!card) {
         throw new NotFoundError('Карточка с указанным id не найдена');
       }
-      res
-        .status(200)
-        .send(card);
+      res.send(card);
     })
     .catch((err) => {
       if (err.name === 'CastError') {

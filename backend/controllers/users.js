@@ -4,7 +4,6 @@ const User = require('../models/user');
 const CastError = require('../errors/cast-error');
 const NotFoundError = require('../errors/not-found-error');
 const ConflictError = require('../errors/conflict-error');
-const UnauthorizedError = require('../errors/unauthorized-error');
 const { SALT_ROUNDS, MONGO_DUPLICATE_ERROR_CODE } = require('../utils/constants');
 
 const { NODE_ENV, JWT_SECRET } = process.env;
@@ -31,9 +30,12 @@ module.exports.createUser = (req, res, next) => {
         })
     ))
     .then((user) => {
-      res
-        .status(201)
-        .send(user);
+      res.send({
+        email: user.email,
+        name: user.name,
+        about: user.about,
+        avatar: user.avatar,
+      });
     })
     .catch((err) => {
       if (err.name === 'ValidationError' || err.name === 'CastError') {
@@ -51,9 +53,7 @@ module.exports.getUsers = (req, res, next) => {
   User
     .find({})
     .then((users) => {
-      res
-        .status(200)
-        .send(users);
+      res.send(users);
     })
     .catch(next);
 };
@@ -67,9 +67,7 @@ module.exports.getMe = (req, res, next) => {
       if (!user) {
         throw new NotFoundError('Пользователь по указанному id не найден');
       }
-      res
-        .status(200)
-        .send(user);
+      res.send(user);
     })
     .catch((err) => {
       if (err.name === 'CastError') {
@@ -89,9 +87,7 @@ module.exports.getUserById = (req, res, next) => {
       if (!user) {
         throw new NotFoundError('Пользователь по указанному id не найден');
       }
-      res
-        .status(200)
-        .send(user);
+      res.send(user);
     })
     .catch((err) => {
       if (err.name === 'CastError') {
@@ -118,9 +114,7 @@ module.exports.updateUser = (req, res, next) => {
       throw err;
     })
     .then((user) => {
-      res
-        .status(200)
-        .send(user);
+      res.send(user);
     })
     .catch((err) => {
       if (err.name === 'NotFoundError') {
@@ -149,9 +143,7 @@ module.exports.updateAvatar = (req, res, next) => {
       throw err;
     })
     .then((user) => {
-      res
-        .status(200)
-        .send(user);
+      res.send(user);
     })
     .catch((err) => {
       if (err.name === 'NotFoundError') {
@@ -177,13 +169,5 @@ module.exports.login = (req, res, next) => {
       );
       res.send({ token });
     })
-    .catch((err) => {
-      if (err.statusCode === 'CastError') {
-        next(new CastError('Введены некорректные данные пользователя'));
-      } else if (err.statusCode === 'UnauthorizedError') {
-        next(new UnauthorizedError('Некорректная почта или пароль'));
-      } else {
-        next(err);
-      }
-    });
+    .catch(next);
 };
